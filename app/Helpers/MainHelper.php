@@ -77,6 +77,7 @@ class MainHelper
         }
         $title = str_replace(' ','-',$title);
         $title = str_replace('?','',$title);
+        $title = str_replace('!','',$title);
         $title = str_replace('\'','',$title);
         $title = str_replace('"','',$title);
         $title = strtolower($title);
