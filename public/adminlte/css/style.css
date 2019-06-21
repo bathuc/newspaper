@@ -1,0 +1,73 @@
+.error {
+	color: #dc3545;
+}
+	
+.navbar {
+    height: 50px;
+}
+
+
+.dropdown-toggle::after{
+    content: none;
+}
+
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 13px 15px;
+}
+.navbar{
+    padding: 0px;
+}
+.user-footer{
+    position: relative;
+    top: -3px;
+    left: 1px;
+}
+.dropdown-menu{
+    background: transparent !important;
+    border:none !important;
+}
+
+.main-footer{
+	padding: 10px;
+}
+
+@media only screen and (max-width: 768px) {
+    .user-footer {
+        position: relative;
+        top: -3px;
+        left: 19px;
+        border: 1px solid #ddd;
+    }
+
+}
+
+.content {
+    padding: 5px;
+}
+
+.box-header {
+    padding: 1rem 1.5rem;
+    position: relative;
+    border-radius: 3px;
+    background: #ffffff;
+    border-top: 3px solid #d2d6de;
+    margin-bottom: 20px;
+    width: 100%;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+}
+
+.box-body {
+    padding: 1rem 1.5rem;
+}
+
+.box-content{
+    padding: 1rem;
+}
+
+.box-grid-header{
+    padding: 1rem 1.5rem 0rem 1.5rem;
+}
+
+.pointer {cursor: pointer;}
