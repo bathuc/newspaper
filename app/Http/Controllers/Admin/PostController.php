@@ -55,9 +55,39 @@ class PostController extends AdminController
         return view('admin.post.new_post', compact('categoryList'));
     }
 
-    public function editPost(Request $request)
+    public function editPost(Request $request, $id)
     {
-        return view('admin.post.edit_post');
+        $post = Post::find($id);
+        if(empty($post)) {
+            return redirect()->route('admin.post');
+        }
+
+        if($request->isMethod('post')) {
+            $data = $request->all();
+            $validator = Validator::make($request->all(), [
+                'title' => 'required|string|max:255',
+                'content' => 'required|string',
+            ]);
+            if ($validator->fails()) {
+                // fail
+                return redirect()->route('admin.edit_post')
+                    ->withErrors($validator)
+                    ->withInput();
+            } else {
+                // success
+                $row = [
+                    'category_id' => $data['category_id'],
+                    'title' => $data['title'],
+                    'content' => $data['content'],
+                ];
+
+                Post::where('id',$id)->update($row);
+            }
+        }
+
+        $post = Post::find($id);
+        $categoryList = Category::getCategoryView(4);
+        return view('admin.post.edit_post', compact('post', 'categoryList'));
     }
 
     public function deletePost(Request $request)

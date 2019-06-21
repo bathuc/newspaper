@@ -35,7 +35,7 @@
                             <th>category</th>
                         </tr>
                         @foreach($posts as $post)
-                            <tr class="user-row pointer" data-text="{{ $post->id }}">
+                            <tr class="post-row pointer" data-id="{{ $post->id }}">
                                 <td>{{ $post->id }}</td>
                                 <td>{{ $post->title }}</td>
                                 <td>{{ $post->category_id }}</td>
@@ -46,6 +46,14 @@
                 </div>
             </div>
         </div>
-
     </section>
+
+    <script>
+        $(document).ready(function () {
+            $('.post-row').click(function(){
+                var postId = $(this).data('id');
+                window.location = '/admin/post/edit/' + postId;
+            });
+        });
+    </script>
 @endsection

@@ -24,14 +24,14 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::match(['get', 'post'], '/reset-password', 'AdminController@resetPassword')->name('admin.reset_password');
 
     Route::match(['get', 'post'], '/post', 'PostController@post')->name('admin.post');
-    Route::match(['get', 'post'], '/new-post', 'PostController@newPost')->name('admin.new_post');
-    Route::match(['get', 'post'], '/edit-post/{id}', 'PostController@editPost')->name('admin.edit_post');
-    Route::post('/delete-post/{id}', 'PostController@deletePost')->name('admin.delete_post');
+    Route::match(['get', 'post'], '/post/new', 'PostController@newPost')->name('admin.new_post');
+    Route::match(['get', 'post'], '/post/edit/{id}', 'PostController@editPost')->name('admin.edit_post');
+    Route::post('/post/delete/{id}', 'PostController@deletePost')->name('admin.delete_post');
 
     Route::match(['get', 'post'], '/category', 'CategoryController@category')->name('admin.category');
     Route::match(['get', 'post'], '/category/new', 'CategoryController@newCategory')->name('admin.new_category');
     Route::match(['get', 'post'], '/category/edit/{id}', 'CategoryController@editCategory')->name('admin.edit_category');
-    Route::post('/delete-category/{id}', 'CategoryController@deleteCategory')->name('admin.delete_category');
+    Route::post('/category/delete/{id}', 'CategoryController@deleteCategory')->name('admin.delete_category');
 
 });
 
