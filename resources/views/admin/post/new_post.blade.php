@@ -18,41 +18,46 @@
                 <div class="box-body">
 
                     <div class="box-bor clearfix">
-                        <h5>Post Information</h5>
+                        @if(empty($categoryList))
+                            <h3 class="text-danger">You need to create category first!</h3>
+                        @else
+                            <h5>Post Information</h5>
 
-                        <div class="box-content">
-                            <form id="frmForm" method="post" class="d-flex justify-content-center">
-                                {{ csrf_field() }}
-                                <div class="form-wrapper w-75">
+                            <div class="box-content">
+                                <form id="frmForm" method="post" class="d-flex justify-content-center">
+                                    {{ csrf_field() }}
+                                    <div class="form-wrapper w-75">
 
-                                    <div class="form-group">
-                                        <label class="font-weight-bold">category</label>
-                                        <select name="category_id" class="form-control">
-                                            @if(!empty($categoryList))
-                                                @foreach ($categoryList as $category)
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">category</label>
+                                            <select name="category_id" class="form-control">
+                                                @if(!empty($categoryList))
+                                                    @foreach ($categoryList as $category)
                                                         <option value="{{ $category['id'] }}" class="font-weight-bold"> {!! $category['name_view'] !!} </option>
-                                                @endforeach
-                                            @endif
-                                        </select>
-                                    </div>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                        </div>
 
-                                    <div class="form-group">
-                                        <label class="font-weight-bold">Title</label>
-                                        <input id="title" name="title" type="text" class="form-control">
-                                    </div>
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Title</label>
+                                            <input id="title" name="title" type="text" class="form-control">
+                                        </div>
 
-                                    <div class="form-group">
-                                        <label class="font-weight-bold">Content</label>
-                                        <textarea id="editor" name="content" type="text" class="form-control"></textarea>
-                                    </div>
+                                        <div class="form-group">
+                                            <label class="font-weight-bold">Content</label>
+                                            <textarea id="editor" name="content" type="text" class="form-control"></textarea>
+                                        </div>
 
-                                    <div class="form-group">
-                                        <label ></label>
-                                        <button type="button" class="btn btn-primary btn-submit btn-lg">Create</button>
+                                        <div class="form-group">
+                                            <label ></label>
+                                            <button type="button" class="btn btn-primary btn-submit btn-lg">Create</button>
+                                        </div>
                                     </div>
-                                </div>
-                            </form>
-                        </div>
+                                </form>
+                            </div>
+                        @endif
+
                     </div>
                 </div>
             </div>

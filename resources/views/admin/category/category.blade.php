@@ -13,9 +13,12 @@
         <div class="row">
 
             <div class="box">
-                <div class="box-body">
-                    {{--<p>Add a word</p>--}}
-                    <a href="{{ route('admin.new_category') }}" class="btn btn-primary btn-flat">New Category</a>
+                <div class="box-header">
+                    <div class="d-flex justify-content-between align-items-center ">
+                        <a href="{{ route('admin.new_category') }}" class="btn btn-primary btn-flat">New Category</a>
+                        <a href="{{ route('admin.category_swap_order') }}" class="btn btn-primary btn-flat">Swap category order</a>
+                    </div>
+
                 </div>
             </div>
 

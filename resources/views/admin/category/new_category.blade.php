@@ -23,6 +23,13 @@
                         <div class="box-content">
                             <form id="frmForm" method="post">
                                 <div class="form-wrapper w-50">
+                                    @if(!empty($alert))
+                                        @if($alert == 'success')
+                                            <div class="alert alert-success"> {{ $message }} </div>
+                                        @elseif($alert == 'error')
+                                            <div class="alert alert-danger"> {{ $message }} </div>
+                                        @endif
+                                    @endif
                                     {{ csrf_field() }}
                                     <div class="form-group row">
                                         <label class="col-md-3">Parent Category</label>

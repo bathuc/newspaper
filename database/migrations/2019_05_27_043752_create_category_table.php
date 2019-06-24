@@ -18,6 +18,8 @@ class CreateCategoryTable extends Migration
             $table->integer('parent_id')->default(0);
             $table->string('name');
             $table->string('slug');
+            $table->integer('order');
+            $table->integer('locked')->default(0);
         });
     }
 

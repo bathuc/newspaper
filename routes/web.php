@@ -31,6 +31,8 @@ Route::group(['prefix' => 'admin', 'namespace' => 'Admin'], function () {
     Route::match(['get', 'post'], '/category', 'CategoryController@category')->name('admin.category');
     Route::match(['get', 'post'], '/category/new', 'CategoryController@newCategory')->name('admin.new_category');
     Route::match(['get', 'post'], '/category/edit/{id}', 'CategoryController@editCategory')->name('admin.edit_category');
+    Route::match(['get', 'post'], '/category/swap-order', 'CategoryController@swapCategoryOrder')->name('admin.category_swap_order');
+    Route::match(['get', 'post'], '/category/friend-list/{id}', 'CategoryController@getCategoryFriendList')->name('admin.category_friend_list');
     Route::post('/category/delete/{id}', 'CategoryController@deleteCategory')->name('admin.delete_category');
 
 });

@@ -24,7 +24,9 @@ class Category extends Model
         }
 
         $childList = [];
-        $categoryList = self::where('parent_id',$id)->get()->toArray();
+        $categoryList = self::where('parent_id',$id)
+                            ->orderby('order')
+                            ->get()->toArray();
         if(empty($categoryList)){
             return null;
         }
@@ -42,7 +44,9 @@ class Category extends Model
     {
         $result = [];
         $level =  self::getLevel();
-        $topCategory = self::where('parent_id',0)->get()->toArray();
+        $topCategory = self::where('parent_id',0)
+                            ->orderby('order')
+                            ->get()->toArray();
         foreach ($topCategory as $item) {
             $custom = $item;
             $custom['child'] = self::getChildList($item['id'], $level);
@@ -84,6 +88,22 @@ class Category extends Model
         self::getChildView($result,$category);
 
         return $result;
+    }
+
+    public static function swapOrder($fromId, $toId)
+    {
+        $fromCategory = Category::find($fromId);
+        $toCategory = Category::find($toId);
+
+        $fromOrder = $fromCategory->order;
+        $toOrder = $toCategory->order;
+
+        // swap here
+        $fromCategory->order = $toOrder;
+        $fromCategory->save();
+
+        $toCategory->order = $fromOrder;
+        $toCategory->save();
     }
 
     public function posts()
