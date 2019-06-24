@@ -104,9 +104,8 @@
         transform: rotate(-90deg);
     }
 
-    a.nav-link {
-        position: relative;
-        z-index: 999;
+    .dropdown-item:hover{
+        background-color: #E8E8E8;
     }
 
   /* -- navigation bar --*/
