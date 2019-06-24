@@ -38,7 +38,7 @@
                                                                     $selected = 'selected';
                                                                 }
                                                             @endphp
-                                                            @if($category['level'] == 3)
+                                                            @if($item['level'] >= $level)
                                                                 <option value="{{ $item['id'] }}" disabled {{ $selected }}> {!! $item['name_view'] !!} </option>
                                                             @else
                                                                 <option value="{{ $item['id'] }}" class="font-weight-bold" {{ $selected }}> {!! $item['name_view'] !!} </option>

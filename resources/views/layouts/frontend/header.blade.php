@@ -14,10 +14,13 @@
 
 
 @php
-    $categoryList = App\Models\Category::getCategoryList();
     $routeName = Route::currentRouteName();
     $hiraganaActive = ($routeName =='front.index')? 'active' : '';
     $categoryList = App\Models\Category::getCategoryList();
+    $currentSlug =  '';
+    if(isset($slug)) {
+        $currentSlug = $slug;
+    }
 @endphp
 
 {{--  add active in a.nav-link for active menu  --}}
@@ -36,15 +39,31 @@
             @if(!empty($categoryList))
                 @foreach ($categoryList as $categoryItem)
                     <li class="nav-item dropdown">
+                        @php
+                            $linkActive = ($currentSlug == $categoryItem['slug'])? 'active' : '';
+                        @endphp
                         @if(!empty($categoryItem['child']))
-                            <a class="nav-link dropdown-toggle" href="{{ route('front.route_name', $categoryItem['slug']) }}" role="button" data-toggle="dropdown">{{ $categoryItem['name'] }}</a>
-                            <div class="dropdown-menu">
+                            <a class="nav-link dropdown-toggle {{ $linkActive }}" href="{{ route('front.route_name', $categoryItem['slug']) }}" role="button" data-toggle="dropdown">{{ $categoryItem['name'] }}</a>
+                            <ul class="dropdown-menu">
                                 @foreach ($categoryItem['child'] as $item)
-                                    <a class="dropdown-item" href="{{ route('front.route_name', $item['slug']) }}">{{ $item['name'] }}</a>
+                                    @if(!empty($item['child']))
+                                        {{-- menu level 3--}}
+                                        <li class="dropdown-submenu">
+                                            <a class="dropdown-item dropdown-toggle" href="{{ route('front.route_name', $item['slug']) }}">{{ $item['name'] }}</a>
+                                            <ul class="dropdown-menu">
+                                                @foreach ($item['child'] as $itemLevel3)
+                                                    <li><a class="dropdown-item" href="{{ route('front.route_name', $itemLevel3['slug']) }}">{{ $itemLevel3['name'] }}</a></li>
+                                                @endforeach
+                                            </ul>
+                                        </li>
+                                    @else
+                                        {{-- menu level 2 --}}
+                                        <li><a class="dropdown-item" href="{{ route('front.route_name', $item['slug']) }}">{{ $item['name'] }}</a></li>
+                                    @endif
                                 @endforeach
-                            </div>
+                            </ul>
                         @else
-                            <a class="nav-link" href="{{ route('front.route_name', $categoryItem['slug']) }}">{{ $categoryItem['name'] }}</a>
+                            <a class="nav-link {{ $linkActive }}" href="{{ route('front.route_name', $categoryItem['slug']) }}">{{ $categoryItem['name'] }}</a>
                         @endif
                     </li>
                 @endforeach
@@ -57,11 +76,40 @@
         {{--<i class="fas fa-user"></i>--}}
       </div>
     </nav>
+
   </div>
 </div>
 
 <style>
-  /*navigation bar*/
+    /* -- subcategory --*/
+    .dropdown-menu {
+        margin: 0!important;
+        padding: 0px;
+        /*border: 0px;*/
+        box-shadow: 0 0 15px -5px rgba(0,0,0,0.4);
+    }
+    .navbar-nav li:hover > ul.dropdown-menu {
+        display: block;
+    }
+    .dropdown-submenu {
+        position:relative;
+    }
+    .dropdown-submenu>.dropdown-menu {
+        top:0;
+        left:100%;
+        margin-top:-6px;
+    }
+    .dropdown-menu > li > a:hover:after {
+        text-decoration: underline;
+        transform: rotate(-90deg);
+    }
+
+    a.nav-link {
+        position: relative;
+        z-index: 999;
+    }
+
+  /* -- navigation bar --*/
   .navigation-bar {
     background-color: #F0F0F0;            /* nav background color */
     width: 100%;
@@ -86,7 +134,7 @@
     padding-left: 0;
   }
 
-  .navbar-nav li {
+  .navbar-nav li.nav-item {
     float: none;
     padding-right: 20px;            /* nav item padding */
     display: inline-block;
@@ -187,21 +235,12 @@
   function menuMobile(event) {
     event.classList.toggle("change");
   }
+
   $(document).ready(function () {
-    $(".navbar-toggler").click(function () {
-      $(".collapse").slideToggle(300);
-    });
-
-      $( ".dropdown-menu" ).css('margin-top',0);
-      $( ".dropdown" )
-      .mouseover(function() {
-          $( this ).addClass('show').attr('aria-expanded',"true");
-          $( this ).find('.dropdown-menu').addClass('show');
-      })
-      .mouseout(function() {
-          $( this ).removeClass('show').attr('aria-expanded',"false");
-          $( this ).find('.dropdown-menu').removeClass('show');
+      $('.nav-item').click(function(){
+          var link = $(this).find('.nav-link').attr('href');
+          window.location = link;
       });
-
   });
 </script>
+

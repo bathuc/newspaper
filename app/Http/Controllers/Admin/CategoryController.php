@@ -12,7 +12,7 @@ class CategoryController extends AdminController
 {
     public function category(Request $request)
     {
-        $categoryList = Category::getCategoryView(4);
+        $categoryList = Category::getCategoryView();
         return view('admin.category.category', compact('categoryList'));
     }
 
@@ -41,8 +41,9 @@ class CategoryController extends AdminController
         }
 
         $categoryList = Category::getCategoryView();
+        $level = Category::getLevel();
 
-        return view('admin.category.new_category', compact('categoryList'));
+        return view('admin.category.new_category', compact('categoryList', 'level'));
     }
 
     public function editCategory(Request $request, $id)
@@ -67,10 +68,11 @@ class CategoryController extends AdminController
 
         }
 
-        $categoryList = Category::getCategoryView(4);
+        $categoryList = Category::getCategoryView();
         $category = Category::find($id);
+        $level = Category::getLevel();
 
-        return view('admin.category.edit_category', compact('category', 'categoryList'));
+        return view('admin.category.edit_category', compact('category', 'categoryList', 'level'));
     }
 
     public function deleteCategory(Request $request)

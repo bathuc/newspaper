@@ -31,7 +31,7 @@
                                                 <option value="0" class="font-weight-bold">Root Category</option>
                                                 @if(!empty($categoryList))
                                                     @foreach ($categoryList as $category)
-                                                        @if($category['level'] == 3)
+                                                        @if($category['level'] >= $level)
                                                             <option value="{{ $category['id'] }}" disabled> {!! $category['name_view'] !!} </option>
                                                         @else
                                                             <option value="{{ $category['id'] }}" class="font-weight-bold"> {!! $category['name_view'] !!} </option>

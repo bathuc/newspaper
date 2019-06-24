@@ -50,7 +50,7 @@ class PostController extends AdminController
 
         }
 
-        $categoryList = Category::getCategoryView(4);
+        $categoryList = Category::getCategoryView();
 
         return view('admin.post.new_post', compact('categoryList'));
     }
@@ -86,7 +86,7 @@ class PostController extends AdminController
         }
 
         $post = Post::find($id);
-        $categoryList = Category::getCategoryView(4);
+        $categoryList = Category::getCategoryView();
         return view('admin.post.edit_post', compact('post', 'categoryList'));
     }
 

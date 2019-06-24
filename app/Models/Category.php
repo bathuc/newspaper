@@ -9,6 +9,13 @@ class Category extends Model
     protected $table = 'category';
     public $timestamps = false;
 
+    public static function getLevel()
+    {
+        // default level is 2
+        $level = !empty(env('CATEGORY_LEVEL'))? env('CATEGORY_LEVEL') : 2;
+        return $level;
+    }
+
     public static function getChildList($id, $level=3, $tryTime=1)
     {
         // menu 3 level
@@ -31,9 +38,10 @@ class Category extends Model
         return $childList;
     }
 
-    public static function getCategoryList($level=3)
+    public static function getCategoryList()
     {
         $result = [];
+        $level =  self::getLevel();
         $topCategory = self::where('parent_id',0)->get()->toArray();
         foreach ($topCategory as $item) {
             $custom = $item;
@@ -46,7 +54,7 @@ class Category extends Model
     public static function getSpace($time)
     {
         $space = '';
-        for($i=1; $i<$time;$i++) {
+        for($i=0; $i<$time;$i++) {
             $space .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
             $space .= '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
         }
@@ -68,9 +76,10 @@ class Category extends Model
         }
     }
 
-    public static function getCategoryView($level=3)
+    public static function getCategoryView()
     {
         $result = [];
+        $level =  self::getLevel();
         $category = self::getCategoryList($level);
         self::getChildView($result,$category);
 

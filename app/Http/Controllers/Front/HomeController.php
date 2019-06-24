@@ -20,14 +20,14 @@ class HomeController extends Controller
         $category = Category::where('slug',$slug)->first();
         if(!empty($category)) {
             $postList = $category->posts()->paginate(10);
-            return view('front.category.index',compact('category', 'postList'));
+            return view('front.category.index',compact('category', 'postList', 'slug'));
         }
 
         // check post
         $post = Post::where('route', $slug) ->first();
         if(!empty($post)) {
 
-            return view('front.post.index', compact('post'));
+            return view('front.post.index', compact('post', 'slug'));
         }
 
         return view('front.error');
