@@ -19,7 +19,7 @@ class CreateCategoryTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->integer('order');
-            $table->integer('locked')->default(0);
+            $table->integer('active_flg')->default(1);
         });
     }
 

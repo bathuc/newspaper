@@ -16,7 +16,10 @@ class Category extends Model
         return $level;
     }
 
-    public static function getChildList($id, $level=3, $tryTime=1)
+    /*
+     * $fetchAll: get all category, include category has been set to disable
+     */
+    public static function getChildList($id, $level=3, $tryTime=1, $fetchAll=false)
     {
         // menu 3 level
         if($tryTime == $level){
@@ -24,32 +27,55 @@ class Category extends Model
         }
 
         $childList = [];
-        $categoryList = self::where('parent_id',$id)
-                            ->orderby('order')
-                            ->get()->toArray();
+        $categoryList = null;
+
+        if($fetchAll) {
+            $categoryList = self::where('parent_id',$id)
+                ->orderby('order')
+                ->get()->toArray();
+        }
+        else{
+            $categoryList = self::where('parent_id',$id)
+                ->where('active_flg', 1)
+                ->orderby('order')
+                ->get()->toArray();
+        }
+
         if(empty($categoryList)){
             return null;
         }
 
         foreach ($categoryList as $item) {
             $custom = $item;
-            $custom['child'] = self::getChildList($item['id'],$level, $tryTime + 1);
+            $custom['child'] = self::getChildList($item['id'],$level, $tryTime + 1, $fetchAll);
             $childList[] = $custom;
         }
 
         return $childList;
     }
 
-    public static function getCategoryList()
+    /*
+     * $fetchAll: get all category, include category has been set to disable
+     */
+    public static function getCategoryList($fetchAll=false)
     {
         $result = [];
         $level =  self::getLevel();
-        $topCategory = self::where('parent_id',0)
-                            ->orderby('order')
-                            ->get()->toArray();
+        if($fetchAll) {
+            $topCategory = self::where('parent_id',0)
+                ->orderby('order')
+                ->get()->toArray();
+        }
+        else{
+            $topCategory = self::where('parent_id',0)
+                ->where('active_flg', 1)
+                ->orderby('order')
+                ->get()->toArray();
+        }
+
         foreach ($topCategory as $item) {
             $custom = $item;
-            $custom['child'] = self::getChildList($item['id'], $level);
+            $custom['child'] = self::getChildList($item['id'], $level, null, $fetchAll);
             $result[] = $custom;
         }
         return $result;
@@ -80,11 +106,13 @@ class Category extends Model
         }
     }
 
-    public static function getCategoryView()
+    /*
+     * $fetchAll: get all category, include category has been set to disable
+     */
+    public static function getCategoryView($fetchAll=false)
     {
         $result = [];
-        $level =  self::getLevel();
-        $category = self::getCategoryList($level);
+        $category = self::getCategoryList($fetchAll);
         self::getChildView($result,$category);
 
         return $result;

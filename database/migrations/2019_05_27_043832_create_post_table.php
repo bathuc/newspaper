@@ -18,6 +18,7 @@ class CreatePostTable extends Migration
             $table->string('route');
             $table->string('title');
             $table->longText('content');
+            $table->integer('active_flg')->default(1);
             $table->string('category_id')->nullable();
             $table->timestamps();
         });

@@ -69,6 +69,47 @@
                     </div>
                 </div>
             </div>
+
+            <div class="box">
+                <div class="box-body w-50">
+                    <h5>Category Enable/Disable </h5>
+
+                    <div class="row">
+                        <label class="col-md-3">Enable Category</label>
+                        <?php $active = ($category->active_flg)? 'checked' : ''; ?>
+                        <div class="col-md-5 row">
+                            <label class="switch">
+                                <input class="category-status" type="checkbox" {{ $active }}>
+                                <span class="slider round"></span>
+                            </label>
+                            <p class="status-title">{{ $active ? 'Yes' : 'No' }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
+
+    <script>
+        $(document).ready(function () {
+            $('.category-status').on('change',function(){
+                var checked = $(this).is(':checked') ? 1 : 0;
+                var status = checked ? 'Yes' : 'No';
+
+                $('.status-title').html(status);
+                $.ajax({
+                    headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}'},
+                    type: 'post',
+                    url:  '{{ route('admin.active_category', $category->id) }}',
+                    data: {
+                        'active': checked,
+                    },
+                    success: function(response) {
+
+                    }
+                });
+            });
+        });
+    </script>
 @endsection

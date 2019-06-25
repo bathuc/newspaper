@@ -29,12 +29,14 @@
                         <tr>
                             <th>id</th>
                             <th>title</th>
+                            <th>Status</th>
                         </tr>
                         @if(!empty($categoryList))
                             @foreach ($categoryList as $category)
                                 <tr class="category-row pointer" data-id="{{ $category['id'] }}">
                                     <td>{{ $category['id'] }}</td>
                                     <td>{!! $category['name_view'] !!} </td>
+                                    <td>{{ $category['active_flg']? '' : 'Locked' }} </td>
                                 </tr>
                             @endforeach
                         @endif

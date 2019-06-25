@@ -17,7 +17,9 @@ class HomeController extends Controller
     public function routeName($slug)
     {
         // check category
-        $category = Category::where('slug',$slug)->first();
+        $category = Category::where('slug',$slug)
+                                ->where('active_flg', 1)
+                                ->first();
         if(!empty($category)) {
             $postList = $category->posts()->paginate(10);
             return view('front.category.index',compact('category', 'postList', 'slug'));

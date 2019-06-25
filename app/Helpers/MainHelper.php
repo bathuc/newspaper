@@ -75,11 +75,9 @@ class MainHelper
         foreach($unicode as $nonUnicode=>$uni){
             $title = preg_replace("/($uni)/i", $nonUnicode, $title);
         }
+        $replaceEmpty = ['#', ';', ':','?', '!', '\'', '"',  '“', '”'];
         $title = str_replace(' ','-',$title);
-        $title = str_replace('?','',$title);
-        $title = str_replace('!','',$title);
-        $title = str_replace('\'','',$title);
-        $title = str_replace('"','',$title);
+        $title = str_replace($replaceEmpty,'',$title);
         $title = strtolower($title);
 
         return $title;

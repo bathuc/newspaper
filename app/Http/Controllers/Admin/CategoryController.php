@@ -12,7 +12,7 @@ class CategoryController extends AdminController
 {
     public function category(Request $request)
     {
-        $categoryList = Category::getCategoryView();
+        $categoryList = Category::getCategoryView(1);
         return view('admin.category.category', compact('categoryList'));
     }
 
@@ -76,8 +76,21 @@ class CategoryController extends AdminController
         $categoryList = Category::getCategoryView();
         $category = Category::find($id);
         $level = Category::getLevel();
+        if(empty($category)) {
+            return redirect()->route('admin.category');
+        }
 
         return view('admin.category.edit_category', compact('category', 'categoryList', 'level'));
+    }
+
+    public function activeCategory(Request $request, $id)
+    {
+        $active = $request->active;
+        $category = Category::find($id);
+        if(!empty($category)) {
+            $category->active_flg = $active;
+            $category->save();
+        }
     }
 
     public function swapCategoryOrder(Request $request)
@@ -86,15 +99,24 @@ class CategoryController extends AdminController
 
         if($request->isMethod('post')) {
             $data = $request->all();
-            $fromId = $data['from_id'];
-            $toId = $data['to_id'];
 
-            if($fromId == $toId) {
-                $alert = 'error'; $message = 'Please chose diffrent category';
-            }
-            else{
-                Category::swapOrder($fromId, $toId);
-                $alert = 'success'; $message = 'Swap category order successful!';
+
+            $validator = Validator::make($request->all(), [
+                'from_id' => 'required',
+                'to_id' => 'required',
+            ]);
+            if ($validator->fails()) {
+                $alert = 'error'; $message = 'Create category first';
+            } else {
+                $fromId = $data['from_id'];
+                $toId = $data['to_id'];
+                if($fromId == $toId) {
+                    $alert = 'error'; $message = 'Please chose diffrent category';
+                }
+                else{
+                    Category::swapOrder($fromId, $toId);
+                    $alert = 'success'; $message = 'Swap category order successful!';
+                }
             }
         }
 
