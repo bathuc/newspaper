@@ -23,12 +23,12 @@
 
         @media only screen and (max-width: 600px) {
             .content{
-                width: 360px;
+                width: 340px;
                 font-size: 20px;
                 line-height: 28px;
             }
             img{
-                width: 360px!important;
+                width: 340px!important;
                 height: auto!important;
             }
         }
