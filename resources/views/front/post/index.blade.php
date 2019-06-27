@@ -23,7 +23,7 @@
 
         @media only screen and (max-width: 600px) {
             .content{
-                width: 380px;
+                width: 360px;
                 font-size: 20px;
                 line-height: 28px;
             }
