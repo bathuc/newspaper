@@ -1,14 +1,17 @@
 <div class="logo-menu">
   <div class="container d-flex justify-content-between align-items-center">
-    <h1 class="text-success">front</h1>
-    <ul class="nav nav-pills">
-      <li class="nav-item">
-        <a class="nav-link btn" href="#">Sign In</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link btn" href="#">Sign up</a>
-      </li>
-    </ul>
+    <h1 class="text-success">newspaper</h1>
+      <div class="d-none d-sm-block">
+          <ul class="nav nav-pills ">
+              <li class="nav-item">
+                  <a class="btn" href="/admin">Sign In</a>
+              </li>
+              <li class="nav-item">
+                  <a class="btn" href="#">Sign up</a>
+              </li>
+          </ul>
+      </div>
+
   </div>
 </div>
 
@@ -234,6 +237,11 @@
   function menuMobile(event) {
     event.classList.toggle("change");
   }
+  $(document).ready(function () {
+      $(".navbar-toggler").click(function () {
+          $(".collapse").slideToggle(300);
+      });
+  });
 
   $(document).ready(function () {
       $('.nav-item').click(function(){

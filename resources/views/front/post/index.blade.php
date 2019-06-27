@@ -20,5 +20,17 @@
             width: 800px!important;
             height: auto!important;
         }
+
+        @media only screen and (max-width: 600px) {
+            .content{
+                width: 400px;
+                font-size: 20px;
+                line-height: 28px;
+            }
+            img{
+                width: 400px!important;
+                height: auto!important;
+            }
+        }
     </style>
 @endsection

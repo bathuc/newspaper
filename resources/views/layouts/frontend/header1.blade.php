@@ -1,13 +1,13 @@
 <div class="logo-menu">
   <div class="container d-flex justify-content-between align-items-center">
-    <h1 class="text-success">front</h1>
+    <h1 class="text-success">newspaper</h1>
     {{--<img src="https://audimediacenter-a.akamaihd.net/system/production/media/1282/images/bde751ee18fe149036c6b47d7595f6784f8901f8/AL090142_full.jpg?1495177124" alt="" height="60">--}}
     <ul class="nav nav-pills">
       <li class="nav-item">
-        <a class="nav-link btn" href="#">Sign In</a>
+        <a class="btn font-weight-bold" href="/admin">Sign In</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link btn" href="#">Sign up</a>
+        <a class="btn font-weight-bold" href="#">Sign up</a>
       </li>
     </ul>
   </div>
@@ -15,12 +15,14 @@
 
 
 @php
-    $categoryList = App\Models\Category::getCategoryList();
     $routeName = Route::currentRouteName();
     $hiraganaActive = ($routeName =='front.index')? 'active' : '';
-
+    $categoryList = App\Models\Category::getCategoryList();
+    $currentSlug =  '';
+    if(isset($slug)) {
+        $currentSlug = $slug;
+    }
 @endphp
-
 {{--  add active in a.nav-link for active menu  --}}
 <div class="navigation-bar">
   <div class="container">
@@ -35,33 +37,38 @@
         {{--right bar--}}
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">Katakana</a>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link" href="#">Words</a>
-            </li>
-            @if(!empty($categoryList))
-                @foreach ($categoryList as $categoryItem)
+              @if(!empty($categoryList))
+                  @foreach ($categoryList as $categoryItem)
                       <li class="nav-item dropdown">
+                          @php
+                              $linkActive = ($currentSlug == $categoryItem['slug'])? 'active' : '';
+                          @endphp
                           @if(!empty($categoryItem['child']))
-                              <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown">{{ $categoryItem['name'] }}</a>
-                              <div class="dropdown-menu">
+                              <a class="nav-link dropdown-toggle {{ $linkActive }}" href="{{ route('front.route_name', $categoryItem['slug']) }}" role="button" data-toggle="dropdown">{{ $categoryItem['name'] }}</a>
+                              <ul class="dropdown-menu">
                                   @foreach ($categoryItem['child'] as $item)
-                                    <a class="dropdown-item" href="#">{{ $item['name'] }}</a>
+                                      @if(!empty($item['child']))
+                                          {{-- menu level 3--}}
+                                          <li class="dropdown-submenu">
+                                              <a class="dropdown-item dropdown-toggle" href="{{ route('front.route_name', $item['slug']) }}">{{ $item['name'] }}</a>
+                                              <ul class="dropdown-menu">
+                                                  @foreach ($item['child'] as $itemLevel3)
+                                                      <li><a class="dropdown-item" href="{{ route('front.route_name', $itemLevel3['slug']) }}">{{ $itemLevel3['name'] }}</a></li>
+                                                  @endforeach
+                                              </ul>
+                                          </li>
+                                      @else
+                                          {{-- menu level 2 --}}
+                                          <li><a class="dropdown-item" href="{{ route('front.route_name', $item['slug']) }}">{{ $item['name'] }}</a></li>
+                                      @endif
                                   @endforeach
-                              </div>
+                              </ul>
                           @else
-                              <a class="nav-link" href="#">{{ $categoryItem['name'] }}</a>
+                              <a class="nav-link {{ $linkActive }}" href="{{ route('front.route_name', $categoryItem['slug']) }}">{{ $categoryItem['name'] }}</a>
                           @endif
                       </li>
-                @endforeach
-            @endif
+                  @endforeach
+              @endif
 
           </ul>
         </div>
@@ -76,15 +83,34 @@
 </div>
 
 <style>
-  .dropdown-item {
-      font-size: 15px;
-  }
-
-    .dropdown-item:hover {
-        background-color: white !important;
-        color: #72bab9 !important;
-        font-weight: bold;
+    /* -- subcategory --*/
+    .dropdown-menu {
+        margin: 0!important;
+        padding: 0px;
+        /*border: 0px;*/
+        box-shadow: 0 0 15px -5px rgba(0,0,0,0.4);
     }
+    .navbar-nav li:hover > ul.dropdown-menu {
+        display: block;
+    }
+    .dropdown-submenu {
+        position:relative;
+    }
+    .dropdown-submenu>.dropdown-menu {
+        top:0;
+        left:100%;
+        margin-top:-6px;
+    }
+    .dropdown-menu > li > a:hover:after {
+        text-decoration: underline;
+        transform: rotate(-90deg);
+    }
+
+    .dropdown-item:hover{
+        background-color: white !important;
+        color:#5aa0a0 !important;
+    }
+
   /*navigation bar*/
   .navigation-bar {
     background-color: #5aa0a0; /* nav background color */
@@ -226,17 +252,11 @@
     $(".navbar-toggler").click(function () {
       $(".collapse").slideToggle(300);
     });
-
-      $( ".dropdown-menu" ).css('margin-top',0);
-      $( ".dropdown" )
-      .mouseover(function() {
-          $( this ).addClass('show').attr('aria-expanded',"true");
-          $( this ).find('.dropdown-menu').addClass('show');
-      })
-      .mouseout(function() {
-          $( this ).removeClass('show').attr('aria-expanded',"false");
-          $( this ).find('.dropdown-menu').removeClass('show');
+  });
+  $(document).ready(function () {
+      $('.nav-item').click(function(){
+          var link = $(this).find('.nav-link').attr('href');
+          window.location = link;
       });
-
   });
 </script>
