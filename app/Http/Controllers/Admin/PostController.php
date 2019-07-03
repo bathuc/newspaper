@@ -13,11 +13,7 @@ class PostController extends AdminController
 {
     public function post(Request $request)
     {
-        if($request->isMethod('post')) {
-
-        }
-
-        $posts = Post::paginate(15);
+        $posts = Post::orderby('id','desc')->paginate(15);
         return view('admin.post.post', compact('posts'));
     }
 

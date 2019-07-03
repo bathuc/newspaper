@@ -39,7 +39,7 @@
     {!! Html::script('adminlte/js/jquery.min.js') !!}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.21.0/moment-with-locales.min.js"></script>
     {!! Html::script('adminlte/js/bootstrap.min.js') !!}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js" async="async"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
     {!! Html::script('adminlte/js/adminlte.min.js') !!}
     {!! Html::script('adminlte/js/jquery.validate.js') !!}
 
