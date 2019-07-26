@@ -32,11 +32,14 @@ class PostController extends AdminController
                                 ->withInput();
             } else {
                 // success
+                $timenow = date('Y-m-d H:i:s');
                 $row = [
                     'route' => MainHelper::getRouteName($data['title']),
                     'category_id' => $data['category_id'],
                     'title' => $data['title'],
                     'content' => $data['content'],
+                    'created_at' => $timenow,
+                    'updated_at' => $timenow,
                 ];
 
                 $postId = Post::insertGetId($row);
@@ -71,10 +74,12 @@ class PostController extends AdminController
                     ->withInput();
             } else {
                 // success
+                $timenow = date('Y-m-d H:i:s');
                 $row = [
                     'category_id' => $data['category_id'],
                     'title' => $data['title'],
                     'content' => $data['content'],
+                    'updated_at' => $timenow,
                 ];
 
                 Post::where('id',$id)->update($row);
