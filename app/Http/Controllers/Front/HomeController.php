@@ -6,9 +6,21 @@ use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use View;
 
 class HomeController extends Controller
 {
+    protected $guard = 'user';
+    protected $user = null;
+
+    public function __construct() {
+        if (Auth::guard($this->guard)->check()) {
+            $this->user = Auth::guard($this->guard)->user();
+        }
+        View::share(['user' => $this->user]);
+    }
+
     public function index()
     {
         return view('front.home');

@@ -23,6 +23,8 @@ class CreateUserTable extends Migration
             $table->timestamp('updated_at')->useCurrent();
             $table->rememberToken();
         });
+        $user = ['name'=>'User', 'email'=>'user@user.com', 'password'=>\Hash::make('user123')];
+        \DB::table('user')->insert($user);
     }
 
     /**

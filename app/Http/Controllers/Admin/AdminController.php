@@ -15,7 +15,7 @@ use View;
 class AdminController extends Controller
 {
     protected $guard = 'admin';
-    protected $admin = [];
+    protected $admin = null;
 
     public function __construct() {
         $except = ['login', 'logout'];
